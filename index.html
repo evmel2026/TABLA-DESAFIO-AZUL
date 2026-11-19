@@ -87,7 +87,7 @@
   #poster .tag{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;letter-spacing:3px;padding:12px 20px;border-radius:999px;border:2px solid #6ED2FF;text-align:center;line-height:1.4}
   #poster .pt{position:absolute;left:64px;top:205px}
   #poster .pt .k{font-family:'Space Mono',monospace;font-size:20px;letter-spacing:8px;color:#BFD3F2}
-  #poster .pt .t{font-family:Anton,sans-serif;font-size:118px;line-height:.92;letter-spacing:2px}
+  #poster .pt .t{font-family:Anton,sans-serif;font-size:118px;line-height:1;letter-spacing:2px;margin-top:14px}
   #poster .pt .t em{font-style:normal;color:#5AA8FF}
   #poster .pt .d{font-size:20px;font-weight:600;color:#DCEBFF;margin-top:10px}
   #poster .pr{position:absolute;left:64px;right:64px;top:470px;display:flex;flex-direction:column;gap:16px}
@@ -165,7 +165,7 @@
    CONFIGURACIÓN: pegá acá el link de tu planilla de Google
    (compartida como "Cualquier persona con el enlace · Lector").
    ===================================================================== */
-const PLANILLA = "https://docs.google.com/spreadsheets/d/10DJDjJxML7nZSaV5lFhOqUs-m-asahtdzj-DqPDwAn8/edit?usp=sharing";
+const PLANILLA = "PEGAR_ACA_EL_LINK_DE_LA_PLANILLA";
 const ACTUALIZAR_CADA_SEGUNDOS = 30;
 
 const SECS = [
@@ -292,7 +292,8 @@ async function downloadPoster() {
   const btn = $('dl'); btn.disabled = true; btn.textContent = 'Generando…';
   try {
     const loaded = ACTS.filter((a) => pos[a.key]).map((a) => a.name.toLowerCase().replace(/^./, (c) => c.toUpperCase()));
-    $('pd').textContent = (loaded.length ? 'Después de: ' + loaded.join(' · ') : 'Sin resultados cargados') + '  ·  ' + new Date().toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
+    const lastAct = ACTS.filter((a) => pos[a.key]).pop();
+    $('pd').textContent = loaded.length ? 'Después de: ' + loaded.join(' · ') + '  ·  ' + lastAct.date : 'Sin resultados cargados';
     $('pr').innerHTML = ranking.map((s) => `<div class="r ${s.rank === 1 && s.total > 0 ? 'top' : ''}" style="--c:${s.c}"><div class="ps">${s.rank}</div>
       <div><div class="n"><i></i>${esc(s.col)}</div><div class="s">${esc(s.n)}${s.desc ? ' · descuento −' + s.desc : ''}</div></div>
       <div class="pt2"><b>${s.total}</b><small>PUNTOS</small></div></div>`).join('');
